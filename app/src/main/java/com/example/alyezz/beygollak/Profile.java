@@ -1,23 +1,33 @@
 package com.example.alyezz.beygollak;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Profile extends AppCompatActivity implements View.OnClickListener {
 
 
-    Button bUpdate, bFriendships, bLogout;
-    EditText etFirstName, etLastName, etLocation;
-    TextView etDateOfBirth, etGender;
-
+    LinearLayout llProfile;
+    ImageView ivProfilePicture;
+    TextView tvViewFriends,tvName ;
+    Button bPost;
+    EditText etPost;
+    ListView lvPosts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,33 +36,74 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        etFirstName = (EditText) findViewById(R.id.etFirstName);
-//        etLastName = (EditText) findViewById(R.id.etLastName);
-//        etLocation = (EditText) findViewById(R.id.etLocation);
-//        etDateOfBirth = (TextView) findViewById(R.id.etDateOfBirth);
-//        etGender = (TextView) findViewById(R.id.etGender);
-        bLogout = (Button) findViewById(R.id.bLogout);
-        bUpdate = (Button) findViewById(R.id.bUpdate);
-        bFriendships = (Button) findViewById(R.id.bFriendships);
+        llProfile = (LinearLayout) findViewById(R.id.llProfile);
 
-        bLogout.setOnClickListener(this);
-        bUpdate.setOnClickListener(this);
-        bFriendships.setOnClickListener(this);
+        ivProfilePicture = (ImageView) findViewById(R.id.ivProfilePicture);
+        tvViewFriends = (TextView) findViewById(R.id.tvViewFriends);
+        tvName = (TextView) findViewById(R.id.tvName);
+        etPost = (EditText) findViewById(R.id.etPost);
+        bPost = (Button) findViewById(R.id.bPost);
+
+        ivProfilePicture.setOnClickListener(this);
+        tvViewFriends.setOnClickListener(this);
+        bPost.setOnClickListener(this);
+        //populateList();
+        populatePosts();
 
     }
 
+//    public void populateList()
+//    {
+//
+//        List<String> your_array_list = new ArrayList<String>();
+//
+//        your_array_list.add("foo");
+//        your_array_list.add("bar");
+//
+//        // This is the array adapter, it takes the context of the activity as a
+//        // first parameter, the type of list view as a second parameter and your
+//        // array as a third parameter.
+//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+//                this,
+//                android.R.layout.simple_list_item_1,
+//                your_array_list );
+//
+//        lvPosts.setAdapter(arrayAdapter);
+//    }
+
+    public void populatePosts()
+    {
+        String[] textArray = {"Sherif", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.", "Aly", "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit."};
+
+
+        for( int i = 0; i < textArray.length; i++ )
+        {
+            TextView textView = new TextView(this);
+            textView.setText(textArray[i]);
+            if(i%2 == 0)
+            {
+                textView.setTypeface(null, Typeface.BOLD);
+                textView.setPadding(20,15,20,0);
+            }
+            else
+            {
+                textView.setPadding(20,15,20,20);
+            }
+
+            llProfile.addView(textView);
+        }
+    }
     @Override
     public void onClick(View v) {
 
         switch(v.getId())
         {
-            case R.id.bLogout:
+            case R.id.ivProfilePicture:
 
-                startActivity(new Intent(this, login.class));
-
+                startActivity(new Intent(this, EditProfile.class));
                 break;
-
         }
 
     }
+
 }

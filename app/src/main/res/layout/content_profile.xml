@@ -3,119 +3,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_profile" tools:context="com.example.alyezz.beygollak.Profile"
+    tools:showIn="@layout/activity_profile" tools:context="com.example.alyezz.beygollak.EditProfile"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:layout_width="match_parent"
-    android:overScrollMode="ifContentScrolls">
-
-    <!-- Profile Picture -->
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/profile_image"
-        android:layout_height="wrap_content" />
-
-   <!-- FIRST NAME -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="First Name"
-        android:textStyle="bold"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/etFirstName"
-        android:text="Aly"
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/llProfile"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
+        android:overScrollMode="ifContentScrolls"
+        android:weightSum="1">
 
-    <!-- LAST NAME -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Last Name"
-        android:textStyle="bold"
-        android:layout_height="wrap_content" />
+        <!-- EditProfile Picture -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="View Friends"
+            android:id="@+id/tvViewFriends"
+            android:layout_gravity="right" />
 
-    <EditText
-        android:id="@+id/etLastName"
-        android:text="Ezz"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/profile_image"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivProfilePicture" />
 
-    <!-- Location -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Location"
-        android:textStyle="bold"
-        android:layout_height="wrap_content" />
+        <!-- FIRST NAME -->
 
-    <EditText
-        android:id="@+id/etLocation"
-        android:text="Cairo"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Name"
+            android:id="@+id/tvName"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp" />
 
-    <!-- Date Of Birth -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Date Of Birth"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
+        <!-- post -->
 
-    <TextView
-        android:id="@+id/etDateOfBirth"
-        android:layout_width="wrap_content"
-        android:text="10/11/1994"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etPost"
+            android:layout_weight="1.60" />
 
-    <!-- Gender -->
+        <!-- Post button -->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Gender"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
+        <Button
+            android:layout_width="356dp"
+            android:layout_height="wrap_content"
+            android:text="Post"
+            android:id="@+id/bPost"
+            android:paddingBottom="15dp" />
 
-    <TextView
-        android:id="@+id/etGender"
-        android:layout_width="wrap_content"
-        android:text="male"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
+        <!-- List -->
 
-
-    <Button
-        android:id="@+id/bFriendships"
-        android:text="Friendships"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/bUpdate"
-        android:text="Update"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/bLogout"
-        android:text="Logout"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
-</LinearLayout>
-    </ScrollView>
+    </LinearLayout>
+</ScrollView>

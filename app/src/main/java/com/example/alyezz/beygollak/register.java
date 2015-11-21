@@ -2,15 +2,13 @@ package com.example.alyezz.beygollak;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class register extends AppCompatActivity implements View.OnClickListener {
+public class Register extends AppCompatActivity implements View.OnClickListener {
 
     Button bRegister;
     EditText etEmail, etPassword, etConfirmPassword, etFirstName, etLastName, etLocation, etDateOfBirth, etGender;
@@ -45,7 +43,7 @@ public class register extends AppCompatActivity implements View.OnClickListener 
         {
             case R.id.bRegister:
 
-                    startActivity(new Intent(this, login.class));
+                    startActivity(new Intent(this, Login.class));
 
                 break;
 
