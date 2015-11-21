@@ -9,12 +9,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class Profile extends AppCompatActivity implements View.OnClickListener {
 
 
     Button bUpdate, bFriendships, bLogout;
-    EditText etFirstName, etLastName, etLocation, etDateOfBirth, etGender;
+    EditText etFirstName, etLastName, etLocation;
+    TextView etDateOfBirth, etGender;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +26,11 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       // etFirstName = (EditText) findViewById(R.id.etFirstName);
-        //etLastName = (EditText) findViewById(R.id.etLastName);
-      //  etLocation = (EditText) findViewById(R.id.etLocation);
-      //  etDateOfBirth = (EditText) findViewById(R.id.etDateOfBirth);
-      //  etGender = (EditText) findViewById(R.id.etGender);
+//        etFirstName = (EditText) findViewById(R.id.etFirstName);
+//        etLastName = (EditText) findViewById(R.id.etLastName);
+//        etLocation = (EditText) findViewById(R.id.etLocation);
+//        etDateOfBirth = (TextView) findViewById(R.id.etDateOfBirth);
+//        etGender = (TextView) findViewById(R.id.etGender);
         bLogout = (Button) findViewById(R.id.bLogout);
         bUpdate = (Button) findViewById(R.id.bUpdate);
         bFriendships = (Button) findViewById(R.id.bFriendships);
