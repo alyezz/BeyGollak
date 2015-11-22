@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class login extends AppCompatActivity implements View.OnClickListener {
+public class Login extends AppCompatActivity implements View.OnClickListener {
 
     Button bLogin;
     EditText etEmail, etPassword;
@@ -64,13 +62,13 @@ public class login extends AppCompatActivity implements View.OnClickListener {
                 }
                 else
                 {
-                    startActivity(new Intent(this, Profile.class));
+                    startActivity(new Intent(this, EditProfile.class));
                 }
                 break;
 
             case R.id.tvRegisterLink:
 
-                startActivity(new Intent(this, register.class));
+                startActivity(new Intent(this, Register.class));
                 break;
         }
 

@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".login"
+            android:name=".Login"
             android:label="BeyGollak"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -24,12 +24,12 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".register"
+            android:name=".Register"
             android:label="Register"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".Profile"
+            android:name=".EditProfile"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>

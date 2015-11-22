@@ -3,55 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_register" tools:context="com.example.alyezz.beygollak.Register"
+    tools:showIn="@layout/activity_edit_profile" tools:context="com.example.alyezz.beygollak.EditProfile"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
     android:orientation="vertical"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="10dp"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:overScrollMode="ifContentScrolls">
 
-    <TextView
+    <!-- EditProfile Picture -->
+    <ImageView
         android:layout_width="wrap_content"
-        android:text="Email"
-        android:textStyle="bold"
-        android:layout_height="wrap_content" />
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/profile_image"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivProfilePicture" />
 
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Password"
-        android:textStyle="bold"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:inputType="textPassword"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Confirm Password"
-        android:textStyle="bold"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/etConfirmPassword"
-        android:layout_width="match_parent"
-        android:inputType="textPassword"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
-
-    <!-- FIRST NAME -->
+   <!-- FIRST NAME -->
     <TextView
         android:layout_width="wrap_content"
         android:text="First Name"
@@ -60,6 +31,7 @@
 
     <EditText
         android:id="@+id/etFirstName"
+        android:text="Aly"
         android:layout_width="match_parent"
         android:layout_marginBottom="10dp"
         android:layout_height="wrap_content" />
@@ -73,6 +45,7 @@
 
     <EditText
         android:id="@+id/etLastName"
+        android:text="Ezz"
         android:layout_width="match_parent"
         android:layout_marginBottom="10dp"
         android:layout_height="wrap_content" />
@@ -86,6 +59,7 @@
 
     <EditText
         android:id="@+id/etLocation"
+        android:text="Cairo"
         android:layout_width="match_parent"
         android:layout_marginBottom="10dp"
         android:layout_height="wrap_content" />
@@ -98,9 +72,10 @@
         android:layout_marginBottom="10dp"
         android:layout_height="wrap_content" />
 
-    <EditText
+    <TextView
         android:id="@+id/etDateOfBirth"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:text="10/11/1994"
         android:layout_marginBottom="10dp"
         android:layout_height="wrap_content" />
 
@@ -113,17 +88,28 @@
         android:layout_marginBottom="10dp"
         android:layout_height="wrap_content" />
 
-    <EditText
+    <TextView
         android:id="@+id/etGender"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:text="male"
         android:layout_marginBottom="10dp"
         android:layout_height="wrap_content" />
 
+
     <Button
-        android:id="@+id/bRegister"
-        android:text="Register"
+        android:id="@+id/bUpdate"
+        android:text="Update"
+        android:layout_marginBottom="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:id="@+id/bLogout"
+        android:text="Logout"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
 </LinearLayout>
-</ScrollView>
+    </ScrollView>
