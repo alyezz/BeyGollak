@@ -5,4 +5,5 @@
     <string name="title_activity_register">register</string>
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_post">Post</string>
+    <string name="title_activity_friend_list">FriendList</string>
 </resources>
