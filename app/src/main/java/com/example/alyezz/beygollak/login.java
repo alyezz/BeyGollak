@@ -62,7 +62,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 }
                 else
                 {
-                    startActivity(new Intent(this, EditProfile.class));
+                    startActivity(new Intent(this, Profile.class));
                 }
                 break;
 
