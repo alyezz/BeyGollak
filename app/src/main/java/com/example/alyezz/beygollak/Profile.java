@@ -27,7 +27,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     TextView tvViewFriends,tvName ;
     Button bPost;
     EditText etPost;
-    ListView lvPosts;
     ArrayList<Integer> posts = new ArrayList<Integer>();
 
     @Override
@@ -47,30 +46,9 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
         ivProfilePicture.setOnClickListener(this);
         tvViewFriends.setOnClickListener(this);
-        bPost.setOnClickListener(this);
-        //populateList();
         populatePosts();
 
     }
-
-//    public void populateList()
-//    {
-//
-//        List<String> your_array_list = new ArrayList<String>();
-//
-//        your_array_list.add("foo");
-//        your_array_list.add("bar");
-//
-//        // This is the array adapter, it takes the context of the activity as a
-//        // first parameter, the type of list view as a second parameter and your
-//        // array as a third parameter.
-//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-//                this,
-//                android.R.layout.simple_list_item_1,
-//                your_array_list );
-//
-//        lvPosts.setAdapter(arrayAdapter);
-//    }
 
     public void populatePosts()
     {
@@ -106,6 +84,11 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
                 startActivity(new Intent(this, EditProfile.class));
                 break;
+
+            case R.id.tvViewFriends:
+                startActivity(new Intent(this, FriendList.class));
+                break;
+
         }
 
         for(int i = 0; i< posts.size();i++)

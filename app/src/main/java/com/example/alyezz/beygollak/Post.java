@@ -46,8 +46,7 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
     public void populateComments()
     {
         String[] textArray = {"Sherif", " Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.", "Aly", "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit."};
-
-
+        
         for( int i = 0; i < textArray.length; i++ )
         {
             TextView textView = new TextView(this);
