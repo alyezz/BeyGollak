@@ -28,6 +28,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     Button bPost;
     EditText etPost;
     ListView lvPosts;
+    ArrayList<Integer> posts = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         {
             TextView textView = new TextView(this);
             textView.setText(textArray[i]);
+            textView.setOnClickListener(this);
             if(i%2 == 0)
             {
                 textView.setTypeface(null, Typeface.BOLD);
@@ -87,6 +89,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
             }
             else
             {
+                textView.setId(i);
+                posts.add(textView.getId());
                 textView.setPadding(20,15,20,20);
             }
 
@@ -104,6 +108,14 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                 break;
         }
 
+        for(int i = 0; i< posts.size();i++)
+        {
+            if (v.getId() == posts.get(i))
+            {
+                startActivity(new Intent(this, Post.class));
+                break;
+            }
+        }
     }
 
 }

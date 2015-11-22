@@ -43,7 +43,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         {
             case R.id.bRegister:
 
-                    startActivity(new Intent(this, Login.class));
+                startActivity(new Intent(this, Login.class));
 
                 break;
 
