@@ -7,6 +7,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +46,21 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        startActivity(new Intent(this, Settings.class));
+        return super.onOptionsItemSelected(item);
+    }
+
     public void populateComments()
     {
         String[] textArray = {"Sherif", " Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.", "Aly", "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit."};
@@ -75,7 +93,7 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
             case R.id.bComment:
                 break;
             case R.id.tvName:
-                startActivity(new Intent(this, Profile.class));
+                startActivity(new Intent(this, MainActivity.class));
                 break;
         }
 
@@ -83,7 +101,7 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
         {
             if (v.getId() == commenters.get(i))
             {
-                startActivity(new Intent(this, Profile.class));
+                startActivity(new Intent(this, MainActivity.class));
                 break;
             }
         }

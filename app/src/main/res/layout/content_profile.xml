@@ -16,6 +16,20 @@
         android:overScrollMode="ifContentScrolls"
         android:weightSum="1">
 
+        <com.example.alyezz.beygollak.SlidingTabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:background="@color/colorPrimary"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            ></android.support.v4.view.ViewPager>
+
         <!-- EditProfile Picture -->
         <TextView
             android:layout_width="wrap_content"
@@ -60,6 +74,12 @@
             android:text="Post"
             android:id="@+id/bPost"
             android:paddingBottom="15dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/llProfilePosts"></LinearLayout>
 
         <!-- List -->
 
