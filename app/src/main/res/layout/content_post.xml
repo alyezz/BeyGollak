@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_post" tools:context="com.example.alyezz.beygollak.Post"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/llPost"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:overScrollMode="ifContentScrolls"
+        android:weightSum="1">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Name"
+            android:id="@+id/tvName"
+            android:paddingTop="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend."
+            android:id="@+id/tvPostText"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:padding="10dp" />
+
+        <EditText
+            android:layout_width="361dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etComment"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
+
+        <Button
+            android:layout_width="361dp"
+            android:layout_height="wrap_content"
+            android:text="Comment"
+            android:id="@+id/bComment" />
+    </LinearLayout>
+</ScrollView>
