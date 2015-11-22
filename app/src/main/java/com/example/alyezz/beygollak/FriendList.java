@@ -1,11 +1,13 @@
 package com.example.alyezz.beygollak;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -27,6 +29,14 @@ public class FriendList extends AppCompatActivity {
         lvFriends = (ListView) findViewById(R.id.lvFriends);
 
         populateFriends();
+
+        lvFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                startActivity(new Intent(FriendList.this, Profile.class));
+            }
+        });
 
     }
 

@@ -46,7 +46,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
         ivProfilePicture.setOnClickListener(this);
         tvViewFriends.setOnClickListener(this);
-        bPost.setOnClickListener(this);
         populatePosts();
 
     }
