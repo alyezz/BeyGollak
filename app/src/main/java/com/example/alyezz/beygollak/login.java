@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
@@ -64,7 +65,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, Settings.class));
         return super.onOptionsItemSelected(item);
     }
     @Override
@@ -76,7 +77,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 if (etEmail.length() == 0 || etPassword.length() == 0)
                 {
-                    showAlert("Wrong Email/password","Email or Password missing!");
+                    Toast.makeText(getApplicationContext(), "Username Or Password Missing!",
+                            Toast.LENGTH_LONG).show();
                 }
                 else
                 {

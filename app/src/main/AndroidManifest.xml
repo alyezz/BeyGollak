@@ -20,6 +20,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="BeyGollak"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
@@ -30,17 +31,19 @@
         </activity>
         <activity
             android:name=".EditProfile"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity
-            android:name=".Profile"
-            android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+        <!--<activity-->
+            <!--android:name=".Profile"-->
+            <!--android:label="@string/title_activity_profile"-->
+            <!--android:theme="@style/AppTheme.NoActionBar" >-->
+        <!--</activity>-->
         <activity
             android:name=".Post"
             android:label="@string/title_activity_post"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
@@ -53,6 +56,11 @@
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <!--<activity-->
+            <!--android:name=".Streets"-->
+            <!--android:label="@string/title_activity_streets"-->
+            <!--android:theme="@style/AppTheme.NoActionBar" >-->
+        <!--</activity>-->
     </application>
 
 </manifest>

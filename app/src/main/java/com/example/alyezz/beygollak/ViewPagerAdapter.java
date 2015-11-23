@@ -35,7 +35,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         {
             case 0:
                 //STREET
-                Tab2 tab1 = new Tab2();
+                Streets tab1 = new Streets();
                 return tab1;
             case 1:
                 //TIMELINE;
