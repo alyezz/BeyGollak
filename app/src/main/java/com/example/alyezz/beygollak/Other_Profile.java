@@ -13,46 +13,47 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class Post extends AppCompatActivity  implements View.OnClickListener  {
+public class Other_Profile extends AppCompatActivity implements View.OnClickListener {
 
-    TextView tvName, tvPostText;
-    EditText etComment;
-    Button bComment;
-    LinearLayout llPost;
-    ArrayList<Integer> commenters = new ArrayList<Integer>();
-    ArrayList<String> commenters_name = new ArrayList<String>();
+    LinearLayout llProfile;
+    ImageView ivProfilePicture;
+    TextView tvViewFriends,tvName,tvFriend ;
+    Button bPost;
+    EditText etPost;
+    ArrayList<Integer> posts = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
+        setContentView(R.layout.activity_other__profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        llPost = (LinearLayout) findViewById(R.id.llPost);
+        llProfile = (LinearLayout) findViewById(R.id.llProfilePosts);
+
+        ivProfilePicture = (ImageView) findViewById(R.id.ivProfilePicture);
+        tvViewFriends = (TextView) findViewById(R.id.tvViewFriends);
+        tvFriend = (TextView) findViewById(R.id.tvFriend);
         tvName = (TextView) findViewById(R.id.tvName);
-        tvPostText = (TextView) findViewById(R.id.tvPostText);
-        etComment = (EditText) findViewById(R.id.etComment);
-        bComment = (Button) findViewById(R.id.bComment);
+        etPost = (EditText) findViewById(R.id.etPost);
+        bPost = (Button) findViewById(R.id.bPost);
 
-        tvName.setOnClickListener(this);
-        bComment.setOnClickListener(this);
-
+        tvViewFriends.setOnClickListener(this);
+        tvFriend.setOnClickListener(this);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("name");
             tvName.setText(value);
-            value = extras.getString("content");
-            tvPostText.setText(value);
         }
 
-        populateComments();
+        populatePosts();
 
     }
 
@@ -63,7 +64,6 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
         menuInflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -71,10 +71,10 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
         return super.onOptionsItemSelected(item);
     }
 
-    public void populateComments()
+    public void populatePosts()
     {
-        String[] textArray = {"Sherif", " Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.", "Aly", "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit."};
-        
+        String[] textArray = {"Sherif", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.", "Aly", "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit."};
+        llProfile.removeAllViews();
         for( int i = 0; i < textArray.length; i++ )
         {
             TextView textView = new TextView(this);
@@ -83,17 +83,16 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
             if(i%2 == 0)
             {
                 textView.setTypeface(null, Typeface.BOLD);
-                textView.setId(i);
-                commenters.add(textView.getId());
-                commenters_name.add(textArray[i]);
                 textView.setPadding(20,15,20,0);
             }
             else
             {
+                textView.setId(i);
+                posts.add(textView.getId());
                 textView.setPadding(20,15,20,20);
             }
 
-            llPost.addView(textView);
+            llProfile.addView(textView);
         }
     }
     @Override
@@ -101,23 +100,19 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
 
         switch(v.getId())
         {
-            case R.id.bComment:
+            case R.id.tvViewFriends:
+                startActivity(new Intent(this, FriendList.class));
                 break;
-            case R.id.tvName:
-                startActivity(new Intent(this, MainActivity.class));
-                break;
+
         }
 
-        for(int i = 0; i< commenters.size();i++)
-        {
-            if (v.getId() == commenters.get(i))
+        for(int i = 0; i< posts.size(); i++) {
+            if (v.getId() == posts.get(i))
             {
-                Intent a = new Intent(getApplicationContext(), Other_Profile.class);
-                a.putExtra("name", commenters_name.get(i));
-                startActivity(a);
+                startActivity(new Intent(this, Post.class));
                 break;
             }
         }
-
     }
+
 }

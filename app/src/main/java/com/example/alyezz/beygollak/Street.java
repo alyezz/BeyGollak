@@ -18,40 +18,35 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class Post extends AppCompatActivity  implements View.OnClickListener  {
+public class Street extends AppCompatActivity implements View.OnClickListener {
 
-    TextView tvName, tvPostText;
+    TextView tvName;
     EditText etComment;
-    Button bComment;
-    LinearLayout llPost;
+    Button bReview;
+    LinearLayout llStreet;
     ArrayList<Integer> commenters = new ArrayList<Integer>();
     ArrayList<String> commenters_name = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
+        setContentView(R.layout.activity_street);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        llPost = (LinearLayout) findViewById(R.id.llPost);
+        llStreet = (LinearLayout) findViewById(R.id.llStreet);
         tvName = (TextView) findViewById(R.id.tvName);
-        tvPostText = (TextView) findViewById(R.id.tvPostText);
         etComment = (EditText) findViewById(R.id.etComment);
-        bComment = (Button) findViewById(R.id.bComment);
+        bReview = (Button) findViewById(R.id.bReview);
 
         tvName.setOnClickListener(this);
-        bComment.setOnClickListener(this);
-
+        bReview.setOnClickListener(this);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String value = extras.getString("name");
             tvName.setText(value);
-            value = extras.getString("content");
-            tvPostText.setText(value);
         }
-
         populateComments();
 
     }
@@ -74,7 +69,7 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
     public void populateComments()
     {
         String[] textArray = {"Sherif", " Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.", "Aly", "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit."};
-        
+
         for( int i = 0; i < textArray.length; i++ )
         {
             TextView textView = new TextView(this);
@@ -93,7 +88,7 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
                 textView.setPadding(20,15,20,20);
             }
 
-            llPost.addView(textView);
+            llStreet.addView(textView);
         }
     }
     @Override
@@ -101,7 +96,7 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
 
         switch(v.getId())
         {
-            case R.id.bComment:
+            case R.id.bReview:
                 break;
             case R.id.tvName:
                 startActivity(new Intent(this, MainActivity.class));
@@ -120,4 +115,5 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
         }
 
     }
+
 }

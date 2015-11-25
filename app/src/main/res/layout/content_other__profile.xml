@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_other__profile" tools:context="com.example.alyezz.beygollak.Other_Profile"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/llProfile"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:overScrollMode="ifContentScrolls"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Friend Request"
+                android:layout_gravity="left"
+                android:id="@+id/tvFriend" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="View Friends"
+                android:gravity="right"
+                android:id="@+id/tvViewFriends" />
+        </LinearLayout>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/profile_image"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivProfilePicture" />
+
+        <!-- FIRST NAME -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Name"
+            android:id="@+id/tvName"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp" />
+
+        <!-- post -->
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etPost"
+            android:layout_weight="1.60" />
+
+        <!-- Post button -->
+
+        <Button
+            android:layout_width="356dp"
+            android:layout_height="wrap_content"
+            android:text="Post"
+            android:id="@+id/bPost"
+            android:paddingBottom="15dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/llProfilePosts"></LinearLayout>
+
+        <!-- List -->
+
+    </LinearLayout>
+</ScrollView>

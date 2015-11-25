@@ -39,7 +39,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 return tab1;
             case 1:
                 //TIMELINE;
-                Tab2 tab2 = new Tab2();
+                Timeline tab2 = new Timeline();
                 return tab2;
             case 2:
                 Profile tab3 = new Profile();
