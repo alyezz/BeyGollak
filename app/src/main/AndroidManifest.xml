@@ -20,8 +20,9 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:label="BeyGollak"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".Register"
@@ -31,21 +32,50 @@
         <activity
             android:name=".EditProfile"
             android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity
-            android:name=".Profile"
-            android:label="@string/title_activity_profile"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+        <!-- <activity -->
+        <!-- android:name=".Profile" -->
+        <!-- android:label="@string/title_activity_profile" -->
+        <!-- android:theme="@style/AppTheme.NoActionBar" > -->
+        <!-- </activity> -->
         <activity
             android:name=".Post"
             android:label="@string/title_activity_post"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".FriendList"
             android:label="@string/title_activity_friend_list"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".Settings"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <!-- <activity -->
+        <!-- android:name=".Streets" -->
+        <!-- android:label="@string/title_activity_streets" -->
+        <!-- android:theme="@style/AppTheme.NoActionBar" > -->
+        <!-- </activity> -->
+        <activity
+            android:name=".Street"
+            android:label="@string/title_activity_street"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".Other_Profile"
+            android:label="@string/title_activity_other__profile"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".Timeline"
+            android:label="@string/title_activity_timeline"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>

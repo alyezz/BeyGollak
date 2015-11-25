@@ -12,32 +12,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Profile extends Fragment implements View.OnClickListener {
+public class Timeline extends Fragment implements View.OnClickListener{
 
-
-    LinearLayout llProfile;
-    ImageView ivProfilePicture;
-    TextView tvViewFriends,tvName ;
-    Button bPost;
-    EditText etPost;
+    LinearLayout llTimeline;
     ArrayList<Integer> posts = new ArrayList<Integer>();
     ArrayList<String> poster = new ArrayList<String>();
     ArrayList<String> post_content = new ArrayList<String>();
 
-    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v =inflater.inflate(R.layout.activity_profile,container,false);
+        View v =inflater.inflate(R.layout.activity_timeline,container,false);
         return v;
     }
     @Override
@@ -46,25 +37,21 @@ public class Profile extends Fragment implements View.OnClickListener {
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
-        llProfile = (LinearLayout) getView().findViewById(R.id.llProfilePosts);
-
-        ivProfilePicture = (ImageView) getView().findViewById(R.id.ivProfilePicture);
-        tvViewFriends = (TextView) getView().findViewById(R.id.tvViewFriends);
-        tvName = (TextView) getView().findViewById(R.id.tvName);
-        etPost = (EditText) getView().findViewById(R.id.etPost);
-        bPost = (Button) getView().findViewById(R.id.bPost);
-
-        ivProfilePicture.setOnClickListener(this);
-        tvViewFriends.setOnClickListener(this);
-       populatePosts();
-
-
+        llTimeline = (LinearLayout) getView().findViewById(R.id.llTimeline);
+        populatePosts();
     }
 
     public void populatePosts()
     {
-        String[] textArray = {"Sherif", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.", "Aly", "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit."};
-        llProfile.removeAllViews();
+        String[] textArray = {"Sherif",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.",
+                "Aly",
+                "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit.",
+                 "Mohamed",
+                "Curabitur varius, nisi non convallis interdum, ipsum nibh tempor quam, eget fringilla tellus tortor a orci. Etiam consectetur pulvinar vehicula. Vestibulum tempor fermentum quam sit amet dapibus.",
+                "Ahmed",
+                 "Ut nec sollicitudin leo. Sed vitae maximus diam. Aliquam dictum quam et neque sodales bibendum. Fusce eget risus auctor, efficitur ligula in, porta ligula. Praesent id ex dapibus, bibendum lacus a, euismod nibh. Pellentesque vitae porta tellus. Morbi iaculis magna ligula, nec mollis nulla venenatis ac."};
+        llTimeline.removeAllViews();
         for( int i = 0; i < textArray.length; i++ )
         {
             TextView textView = new TextView(getActivity());
@@ -81,27 +68,14 @@ public class Profile extends Fragment implements View.OnClickListener {
                 textView.setId(i);
                 posts.add(textView.getId());
                 post_content.add(textArray[i]);
-                textView.setPadding(20,15,20,20);
+                textView.setPadding(20,15,20,30);
             }
 
-            llProfile.addView(textView);
+            llTimeline.addView(textView);
         }
     }
-    @Override
+
     public void onClick(View v) {
-
-        switch(v.getId())
-        {
-            case R.id.ivProfilePicture:
-
-                startActivity(new Intent(getActivity(), EditProfile.class));
-                break;
-
-            case R.id.tvViewFriends:
-                startActivity(new Intent(getActivity(), FriendList.class));
-                break;
-
-        }
 
         for(int i = 0; i< posts.size(); i++) {
             if (v.getId() == posts.get(i))

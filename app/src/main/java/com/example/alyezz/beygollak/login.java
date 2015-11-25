@@ -4,12 +4,17 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
@@ -50,6 +55,20 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        startActivity(new Intent(this, Settings.class));
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
     public void onClick(View v) {
 
         switch(v.getId())
@@ -58,11 +77,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
                 if (etEmail.length() == 0 || etPassword.length() == 0)
                 {
-                    showAlert("Wrong Email/password","Email or Password missing!");
+                    Toast.makeText(getApplicationContext(), "Username Or Password Missing!",
+                            Toast.LENGTH_LONG).show();
                 }
                 else
                 {
-                    startActivity(new Intent(this, Profile.class));
+                    startActivity(new Intent(this, MainActivity.class));
                 }
                 break;
 
