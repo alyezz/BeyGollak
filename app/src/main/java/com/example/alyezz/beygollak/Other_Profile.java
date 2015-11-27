@@ -27,6 +27,8 @@ public class Other_Profile extends AppCompatActivity implements View.OnClickList
     Button bPost;
     EditText etPost;
     ArrayList<Integer> posts = new ArrayList<Integer>();
+    ArrayList<String> poster = new ArrayList<String>();
+    ArrayList<String> post_content = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,12 +85,14 @@ public class Other_Profile extends AppCompatActivity implements View.OnClickList
             if(i%2 == 0)
             {
                 textView.setTypeface(null, Typeface.BOLD);
-                textView.setPadding(20,15,20,0);
+                textView.setPadding(20, 15, 20, 0);
+                poster.add(textArray[i]);
             }
             else
             {
                 textView.setId(i);
                 posts.add(textView.getId());
+                post_content.add(textArray[i]);
                 textView.setPadding(20,15,20,20);
             }
 
@@ -109,7 +113,10 @@ public class Other_Profile extends AppCompatActivity implements View.OnClickList
         for(int i = 0; i< posts.size(); i++) {
             if (v.getId() == posts.get(i))
             {
-                startActivity(new Intent(this, Post.class));
+                Intent a = new Intent(getApplicationContext(), Post.class);
+                a.putExtra("name", poster.get(i));
+                a.putExtra("content", post_content.get(i));
+                startActivity(a);
                 break;
             }
         }
