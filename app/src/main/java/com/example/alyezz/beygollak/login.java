@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
-    Button bLogin;
+    Button bLogin, bFacebook;
     EditText etEmail, etPassword;
     TextView tvRegisterLink;
 
@@ -32,9 +32,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         bLogin = (Button) findViewById(R.id.bLogin);
+        bFacebook = (Button) findViewById(R.id.bFacebook);
         tvRegisterLink = (TextView) findViewById(R.id.tvRegisterLink);
 
         bLogin.setOnClickListener(this);
+        bFacebook.setOnClickListener(this);
         tvRegisterLink.setOnClickListener(this);
     }
 
@@ -55,20 +57,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        startActivity(new Intent(this, Settings.class));
-        return super.onOptionsItemSelected(item);
-    }
-    @Override
     public void onClick(View v) {
 
         switch(v.getId())
@@ -88,7 +76,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
             case R.id.tvRegisterLink:
 
-                startActivity(new Intent(this, Register.class));
+            startActivity(new Intent(this, Register.class));
+            break;
+
+            case R.id.bFacebook:
+
+                startActivity(new Intent(this, MainActivity.class));
                 break;
         }
 

@@ -104,7 +104,9 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
             case R.id.bComment:
                 break;
             case R.id.tvName:
-                startActivity(new Intent(this, MainActivity.class));
+                Intent a = new Intent(getApplicationContext(), Other_Profile.class);
+                a.putExtra("name", tvName.getText());
+                startActivity(a);
                 break;
         }
 
