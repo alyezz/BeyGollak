@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,7 @@ public class Other_Profile extends AppCompatActivity implements View.OnClickList
         etPost = (EditText) findViewById(R.id.etPost);
         bPost = (Button) findViewById(R.id.bPost);
 
+        bPost.setOnClickListener(this);
         tvViewFriends.setOnClickListener(this);
         tvFriend.setOnClickListener(this);
 
@@ -107,6 +109,18 @@ public class Other_Profile extends AppCompatActivity implements View.OnClickList
             case R.id.tvViewFriends:
                 startActivity(new Intent(this, FriendList.class));
                 break;
+
+            case R.id.bPost:
+                if (etPost.length() == 0)
+                {
+                    Toast.makeText(getApplicationContext(), "Cant post empty text",
+                            Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Posted: " + etPost.getText(),
+                            Toast.LENGTH_LONG).show();
+                }
 
         }
 

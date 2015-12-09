@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,7 @@ public class Profile extends Fragment implements View.OnClickListener {
         etPost = (EditText) getView().findViewById(R.id.etPost);
         bPost = (Button) getView().findViewById(R.id.bPost);
 
+        bPost.setOnClickListener(this);
         ivProfilePicture.setOnClickListener(this);
         tvViewFriends.setOnClickListener(this);
        populatePosts();
@@ -101,6 +103,17 @@ public class Profile extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), FriendList.class));
                 break;
 
+            case R.id.bPost:
+                if (etPost.length() == 0)
+                {
+                    Toast.makeText(getActivity().getApplicationContext(), "Cant post empty text",
+                            Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getActivity().getApplicationContext(), "Posted: " + etPost.getText(),
+                            Toast.LENGTH_LONG).show();
+                }
         }
 
         for(int i = 0; i< posts.size(); i++) {

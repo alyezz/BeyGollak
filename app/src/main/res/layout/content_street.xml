@@ -9,13 +9,19 @@
     >
     <LinearLayout
         android:orientation="vertical"
-        android:id="@+id/llStreet"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:layout_width="match_parent"
         android:overScrollMode="ifContentScrolls"
         android:weightSum="1">
 
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/street"
+            android:layout_gravity="center"
+            android:id="@+id/imageView" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,5 +45,12 @@
             android:layout_height="wrap_content"
             android:text="Review"
             android:id="@+id/bReview" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/llStreet"
+            android:background="#b3b3b3"></LinearLayout>
     </LinearLayout>
 </ScrollView>

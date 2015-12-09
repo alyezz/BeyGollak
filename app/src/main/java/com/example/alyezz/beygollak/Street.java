@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -96,11 +97,21 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
 
         switch(v.getId())
         {
-            case R.id.bReview:
-                break;
             case R.id.tvName:
                 startActivity(new Intent(this, MainActivity.class));
                 break;
+
+            case R.id.bReview:
+                if (etComment.length() == 0)
+                {
+                    Toast.makeText(getApplicationContext(), "Cant post empty text",
+                            Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Posted: " + etComment.getText(),
+                            Toast.LENGTH_LONG).show();
+                }
         }
 
         for(int i = 0; i< commenters.size();i++)

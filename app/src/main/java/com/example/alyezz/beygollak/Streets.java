@@ -19,9 +19,14 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 
+import com.example.alyezz.util.ApiRouter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class Streets extends Fragment {
 
@@ -158,6 +163,7 @@ public class Streets extends Fragment {
         listDataChild.put(listDataHeader.get(3), nasr_city);
         listDataChild.put(listDataHeader.get(4), zamalek);
     }
+
 
 }
 

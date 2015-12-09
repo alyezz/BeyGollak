@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -102,7 +103,16 @@ public class Post extends AppCompatActivity  implements View.OnClickListener  {
         switch(v.getId())
         {
             case R.id.bComment:
-                break;
+                if (etComment.length() == 0)
+                {
+                    Toast.makeText(getApplicationContext(), "Cant post empty text",
+                            Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Posted: " + etComment.getText(),
+                            Toast.LENGTH_LONG).show();
+                }
             case R.id.tvName:
                 Intent a = new Intent(getApplicationContext(), Other_Profile.class);
                 a.putExtra("name", tvName.getText());

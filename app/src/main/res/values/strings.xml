@@ -11,4 +11,5 @@
     <string name="title_activity_street">Street</string>
     <string name="title_activity_other__profile">Other_Profile</string>
     <string name="title_activity_timeline">Timeline</string>
+    <string name="facebook_app_id">854016358050999</string>
 </resources>

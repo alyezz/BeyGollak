@@ -16,27 +16,66 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.*;
+import com.facebook.Profile;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
+
     Button bLogin, bFacebook;
+    LoginButton loginButton;
     EditText etEmail, etPassword;
     TextView tvRegisterLink;
+
+    private CallbackManager mCallBackManager;
+
+    private FacebookCallback<LoginResult> mCallback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+
+            AccessToken accessToken = loginResult.getAccessToken();
+            Profile profile = Profile.getCurrentProfile();
+
+            if (profile != null)
+            {
+
+            }
+
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+
+        @Override
+        public void onError(FacebookException error) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mCallBackManager = CallbackManager.Factory.create();
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
         bLogin = (Button) findViewById(R.id.bLogin);
-        bFacebook = (Button) findViewById(R.id.bFacebook);
+       // bFacebook = (Button) findViewById(R.id.bFacebook);
         tvRegisterLink = (TextView) findViewById(R.id.tvRegisterLink);
 
+        loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions("user_friends");
+        loginButton.registerCallback(mCallBackManager,mCallback);
+
         bLogin.setOnClickListener(this);
-        bFacebook.setOnClickListener(this);
         tvRegisterLink.setOnClickListener(this);
     }
 
@@ -54,6 +93,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCallBackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -79,10 +126,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 startActivity(new Intent(this, Register.class));
                 break;
 
-            case R.id.bFacebook:
-
-                startActivity(new Intent(this, MainActivity.class));
-                break;
+//            case R.id.bFacebook:
+//
+//                startActivity(new Intent(this, MainActivity.class));
+//                break;
         }
 
     }
