@@ -36,6 +36,7 @@ public class Street {
     }
 
 
+
 //    public static Street parseJSON(String response) {
 //        Gson gson = new GsonBuilder().create();
 //        Street street = gson.fromJson(response, Response.class);

@@ -1,5 +1,6 @@
 package com.example.alyezz.beygollak;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -17,14 +18,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alyezz.util.ApiRouter;
+
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class Street extends AppCompatActivity implements View.OnClickListener {
 
     TextView tvName;
     EditText etComment;
     Button bReview;
+    String name;
     LinearLayout llStreet;
+    ProgressDialog progress;
+    List<com.example.alyezz.model.Street> streets = new ArrayList<com.example.alyezz.model.Street>();
+    com.example.alyezz.model.Street current;
     ArrayList<Integer> commenters = new ArrayList<Integer>();
     ArrayList<String> commenters_name = new ArrayList<String>();
 
@@ -45,9 +57,10 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String value = extras.getString("name");
-            tvName.setText(value);
+            name = extras.getString("name");
+            //tvName.setText(value);
         }
+        getStreets();
         populateComments();
 
     }
@@ -127,4 +140,40 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
 
     }
 
+    protected void getStreets() {
+        streets.clear();
+        //startProgress();
+        progress = ProgressDialog.show(this, "Fetching Data", "Please wait...", true);
+
+        ApiRouter.withoutToken().getStreets(new Callback<List<com.example.alyezz.model.Street>>() {
+            @Override
+            public void success(List<com.example.alyezz.model.Street> result, Response response) {
+                streets.addAll(result);
+
+                for (int i = 0; i<streets.size();i++)
+                {
+                    if (streets.get(i).getName().equals(name))
+                    {
+                        current = streets.get(i);
+                        break;
+                    }
+                }
+                tvName.setText(current.getArea() + " - " + current.getName());
+                progress.dismiss();
+            }
+            @Override
+            public void failure(RetrofitError e) {
+                progress.dismiss();
+                 displayError(e);
+            }
+        });
+
+    }
+
+    protected void displayError(Exception e) {
+        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT)
+                .show();
+    }
+
 }
+

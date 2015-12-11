@@ -16,19 +16,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alyezz.model.User;
+import com.example.alyezz.util.ApiRouter;
 import com.facebook.*;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+public class Login extends BaseActivity implements View.OnClickListener {
 
 
     Button bLogin, bFacebook;
     LoginButton loginButton;
     EditText etEmail, etPassword;
     TextView tvRegisterLink;
-
+    Intent intent;
     private CallbackManager mCallBackManager;
 
     private FacebookCallback<LoginResult> mCallback = new FacebookCallback<LoginResult>() {
@@ -42,6 +48,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             {
 
             }
+            startActivity(intent);
 
         }
 
@@ -64,6 +71,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        intent = new Intent(this,MainActivity.class);
         mCallBackManager = CallbackManager.Factory.create();
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -117,6 +125,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 }
                 else
                 {
+//                    String email = etEmail.getText().toString();
+//                    String password = etPassword.getText().toString();
+//                    final Intent intent = new Intent(this, MainActivity.class);
+//                    ApiRouter.withoutToken().login(email, password, new Callback<User>() {
+//                        @Override
+//                        public void success(User user, Response response) {
+//                            setCurrentUser(user);
+//                            stopProgress();
+//                            startActivity(intent);
+//                        }
+//                        @Override
+//                        public void failure(RetrofitError e) {
+//                            displayError(e);
+//                            bLogin.setEnabled(true);
+//                        }
+//                    });
                     startActivity(new Intent(this, MainActivity.class));
                 }
                 break;
