@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alyezz.model.Review;
 import com.example.alyezz.util.ApiRouter;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
     ProgressDialog progress;
     List<com.example.alyezz.model.Street> streets = new ArrayList<com.example.alyezz.model.Street>();
     com.example.alyezz.model.Street current;
+    List<Review> reviews = new ArrayList<Review>();
     ArrayList<Integer> commenters = new ArrayList<Integer>();
     ArrayList<String> commenters_name = new ArrayList<String>();
 
@@ -61,7 +64,7 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
             //tvName.setText(value);
         }
         getStreets();
-        populateComments();
+      //  populateComments();
 
     }
 
@@ -82,25 +85,24 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
 
     public void populateComments()
     {
-        String[] textArray = {"Sherif", " Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.", "Aly", "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit."};
+       // String[] textArray = {"Sherif", " Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.", "Aly", "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit."};
 
-        for( int i = 0; i < textArray.length; i++ )
+        for( int i = 0; i < reviews.size(); i++ )
         {
             TextView textView = new TextView(this);
-            textView.setText(textArray[i]);
-            textView.setOnClickListener(this);
-            if(i%2 == 0)
-            {
+
+                textView.setText(""+ reviews.get(i).getUser_id());//get actual user name
+                textView.setOnClickListener(this);
                 textView.setTypeface(null, Typeface.BOLD);
                 textView.setId(i);
-                commenters.add(textView.getId());
-                commenters_name.add(textArray[i]);
+//                commenters.add(textView.getId());
+//                commenters_name.add(""+ reviews.get(i).getUser_id());
                 textView.setPadding(20,15,20,0);
-            }
-            else
-            {
-                textView.setPadding(20,15,20,20);
-            }
+                llStreet.addView(textView);
+                textView = new TextView(this);
+                textView.setText(reviews.get(i).getReview_content());
+                textView.setOnClickListener(this);
+                textView.setPadding(20, 15, 20, 20);
 
             llStreet.addView(textView);
         }
@@ -150,24 +152,46 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
             public void success(List<com.example.alyezz.model.Street> result, Response response) {
                 streets.addAll(result);
 
-                for (int i = 0; i<streets.size();i++)
-                {
-                    if (streets.get(i).getName().equals(name))
-                    {
+                for (int i = 0; i < streets.size(); i++) {
+                    if (streets.get(i).getName().equals(name)) {
                         current = streets.get(i);
+                        getReviews();
                         break;
                     }
                 }
                 tvName.setText(current.getArea() + " - " + current.getName());
                 progress.dismiss();
             }
+
             @Override
             public void failure(RetrofitError e) {
                 progress.dismiss();
-                 displayError(e);
+                displayError(e);
             }
         });
 
+    }
+
+    protected void getReviews() {
+        reviews.clear();
+       // startProgress();
+        ApiRouter.withoutToken().getReview(current.getId(),new Callback<List<Review>>() {
+            @Override
+            public void success(List<Review> result, Response response) {
+                if (result != null)
+                {
+                    reviews.addAll(result);
+                    populateComments();
+                }
+                progress.dismiss();
+            }
+
+            @Override
+            public void failure(RetrofitError e) {
+                progress.dismiss();
+                displayError(e);
+            }
+        });
     }
 
     protected void displayError(Exception e) {

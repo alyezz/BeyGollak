@@ -7,7 +7,7 @@ import retrofit.client.Response;
 
 public class Street {
 
-    private String id;
+    private long id;
     private String name;
     private String area;
 
@@ -19,11 +19,11 @@ public class Street {
         this.name = name;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
