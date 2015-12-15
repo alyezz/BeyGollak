@@ -44,6 +44,7 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
     com.example.alyezz.model.Street current;
     List<Review> reviews = new ArrayList<Review>();
     List<User> users = new ArrayList<User>();
+    User currentUser;
     ArrayList<Integer> commenters = new ArrayList<Integer>();
     ArrayList<String> commenters_name = new ArrayList<String>();
 
@@ -61,6 +62,8 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
 
         tvName.setOnClickListener(this);
         bReview.setOnClickListener(this);
+
+        currentUser = ((MyApplication) getApplicationContext()).currentUser;
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -229,7 +232,7 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
         r.setId(reviewSize);
         r.setStreet_id(current.getId());
         r.setReview_content(review);
-        r.setUser_id(1);
+        r.setUser_id(currentUser.getId());
         ApiRouter.withoutToken().post_review(r, new Callback<Review>() {
             @Override
             public void success(Review result, Response response) {
