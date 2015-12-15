@@ -1,5 +1,6 @@
 package com.example.alyezz.beygollak;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -17,13 +18,27 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.alyezz.model.User;
+import com.example.alyezz.util.ApiRouter;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class Timeline extends Fragment implements View.OnClickListener{
 
     LinearLayout llTimeline;
+    User currentUser;
+    List<com.example.alyezz.model.Post> post = new ArrayList<com.example.alyezz.model.Post>();
+    List<User> friends = new ArrayList<User>();
+    ProgressDialog progress;
     ArrayList<Integer> posts = new ArrayList<Integer>();
+    List<User> users = new ArrayList<User>();
     ArrayList<String> poster = new ArrayList<String>();
     ArrayList<String> post_content = new ArrayList<String>();
 
@@ -36,55 +51,134 @@ public class Timeline extends Fragment implements View.OnClickListener{
         super.onStart();
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
+        currentUser = ((MyApplication) getActivity().getApplicationContext()).currentUser;
 
         llTimeline = (LinearLayout) getView().findViewById(R.id.llTimeline);
-        populatePosts();
+        getPosts();
     }
 
     public void populatePosts()
     {
-        String[] textArray = {"Sherif",
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.",
-                "Aly",
-                "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit.",
-                 "Mohamed",
-                "Curabitur varius, nisi non convallis interdum, ipsum nibh tempor quam, eget fringilla tellus tortor a orci. Etiam consectetur pulvinar vehicula. Vestibulum tempor fermentum quam sit amet dapibus.",
-                "Ahmed",
-                 "Ut nec sollicitudin leo. Sed vitae maximus diam. Aliquam dictum quam et neque sodales bibendum. Fusce eget risus auctor, efficitur ligula in, porta ligula. Praesent id ex dapibus, bibendum lacus a, euismod nibh. Pellentesque vitae porta tellus. Morbi iaculis magna ligula, nec mollis nulla venenatis ac."};
+        progress.dismiss();
         llTimeline.removeAllViews();
-        for( int i = 0; i < textArray.length; i++ )
+        for( int i = 0; i < post.size(); i++ )
         {
-            TextView textView = new TextView(getActivity());
-            textView.setText(textArray[i]);
-            textView.setOnClickListener(this);
-            if(i%2 == 0)
+            for (int j = 0;j<friends.size();j++)
             {
-                textView.setTypeface(null, Typeface.BOLD);
-                textView.setPadding(20, 15, 20, 0);
-                poster.add(textArray[i]);
-            }
-            else
-            {
-                textView.setId(i);
-                posts.add(textView.getId());
-                post_content.add(textArray[i]);
-                textView.setPadding(20,15,20,30);
+                if (post.get(i).getUser_id() == friends.get(j).getId())
+                {
+                    TextView textView = new TextView(getActivity());
+                    textView.setText(findUser(post.get(i).getUser_id()) + " → " + findUser(post.get(i).getReciever_id()));
+                    textView.setOnClickListener(this);
+                    textView.setTypeface(null, Typeface.BOLD);
+                    textView.setPadding(20, 15, 20, 0);
+                    llTimeline.addView(textView);
+
+                    textView = new TextView(getActivity());
+                    textView.setText(post.get(i).getPost_content());
+                    textView.setOnClickListener(this);
+                    textView.setId((int) post.get(i).getId());
+                    textView.setPadding(20, 15, 20, 30);
+                    llTimeline.addView(textView);
+                    break;
+                }
             }
 
-            llTimeline.addView(textView);
         }
+    }
+
+    protected String findUser(Long id)
+    {
+        for(int i = 0; i<users.size();i++)
+        {
+            if (users.get(i).getId() == id)
+            {
+                return users.get(i).getEmail();
+            }
+        }
+        return "";
+    }
+
+    protected void getFriends() {
+        friends.clear();
+        // startProgress();
+        ApiRouter.withoutToken().getFriends(currentUser.getId(), new Callback<List<User>>() {
+            @Override
+            public void success(List<User> result, Response response) {
+                if (result != null) {
+                    friends.addAll(result);
+                    getUsers();
+                }
+                progress.dismiss();
+            }
+
+            @Override
+            public void failure(RetrofitError e) {
+                progress.dismiss();
+                displayError(e);
+            }
+        });
+    }
+
+    protected void getUsers() {
+        users.clear();
+        // startProgress();
+        ApiRouter.withoutToken().getUsers(new Callback<List<User>>() {
+            @Override
+            public void success(List<User> result, Response response) {
+                if (result != null) {
+                    users.addAll(result);
+                    populatePosts();
+                }
+                progress.dismiss();
+            }
+
+            @Override
+            public void failure(RetrofitError e) {
+                progress.dismiss();
+                displayError(e);
+            }
+        });
+    }
+
+    protected void getPosts() {
+        post.clear();
+        //startProgress();
+        progress = ProgressDialog.show(this.getActivity(), "Fetching Data", "Please wait...", true);
+
+        ApiRouter.withoutToken().getPosts(new Callback<List<com.example.alyezz.model.Post>>() {
+            @Override
+            public void success(List<com.example.alyezz.model.Post> result, Response response) {
+                post.addAll(result);
+                getFriends();
+                progress.dismiss();
+            }
+
+            @Override
+            public void failure(RetrofitError e) {
+                progress.dismiss();
+                displayError(e);
+            }
+        });
+
+    }
+
+    protected void displayError(Exception e) {
+        Toast.makeText(this.getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT)
+                .show();
     }
 
     public void onClick(View v) {
 
-        for(int i = 0; i< posts.size(); i++) {
-            if (v.getId() == posts.get(i))
+        for (int i = 0 ; i<post.size();i++)
+        {
+            if (post.get(i).getId() == v.getId())
             {
-                Intent a = new Intent(getActivity().getApplicationContext(), Post.class);
-                a.putExtra("name", poster.get(i));
-                a.putExtra("content", post_content.get(i));
-                startActivity(a);
-                break;
+                Intent j = new Intent(getActivity().getApplicationContext(), com.example.alyezz.beygollak.Post.class);
+                j.putExtra("id", post.get(i).getId());
+                j.putExtra("content",post.get(i).getPost_content());
+                j.putExtra("user",post.get(i).getUser_id());
+                startActivity(j);
             }
         }
     }

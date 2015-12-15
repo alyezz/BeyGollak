@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alyezz.model.Review;
+import com.example.alyezz.model.User;
 import com.example.alyezz.util.ApiRouter;
 
 import java.util.ArrayList;
@@ -37,9 +38,12 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
     String name;
     LinearLayout llStreet;
     ProgressDialog progress;
+    Review r;
+    int reviewSize;
     List<com.example.alyezz.model.Street> streets = new ArrayList<com.example.alyezz.model.Street>();
     com.example.alyezz.model.Street current;
     List<Review> reviews = new ArrayList<Review>();
+    List<User> users = new ArrayList<User>();
     ArrayList<Integer> commenters = new ArrayList<Integer>();
     ArrayList<String> commenters_name = new ArrayList<String>();
 
@@ -85,18 +89,22 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
 
     public void populateComments()
     {
+        llStreet.removeAllViews();
        // String[] textArray = {"Sherif", " Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.", "Aly", "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit."};
-
         for( int i = 0; i < reviews.size(); i++ )
         {
             TextView textView = new TextView(this);
 
-                textView.setText(""+ reviews.get(i).getUser_id());//get actual user name
+            for(int j = 0; j<users.size();j++)
+            {
+                if (reviews.get(i).getUser_id() == users.get(j).getId())
+                {
+                    textView.setText(users.get(j).getEmail());
+                    textView.setId((int)users.get(j).getId());
+                }
+            }
                 textView.setOnClickListener(this);
                 textView.setTypeface(null, Typeface.BOLD);
-                textView.setId(i);
-//                commenters.add(textView.getId());
-//                commenters_name.add(""+ reviews.get(i).getUser_id());
                 textView.setPadding(20,15,20,0);
                 llStreet.addView(textView);
                 textView = new TextView(this);
@@ -124,17 +132,18 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "Posted: " + etComment.getText(),
-                            Toast.LENGTH_LONG).show();
+                    getReviewSize("" + etComment.getText());
+                    etComment.setText("");
+                    break;
                 }
         }
 
-        for(int i = 0; i< commenters.size();i++)
+        for(int i = 0; i< users.size();i++)
         {
-            if (v.getId() == commenters.get(i))
+            if (v.getId() == users.get(i).getId())
             {
                 Intent a = new Intent(getApplicationContext(), Other_Profile.class);
-                a.putExtra("name", commenters_name.get(i));
+                a.putExtra("id", users.get(i).getId());
                 startActivity(a);
                 break;
             }
@@ -175,14 +184,84 @@ public class Street extends AppCompatActivity implements View.OnClickListener {
     protected void getReviews() {
         reviews.clear();
        // startProgress();
-        ApiRouter.withoutToken().getReview(current.getId(),new Callback<List<Review>>() {
+        ApiRouter.withoutToken().getReview(current.getId(), new Callback<List<Review>>() {
             @Override
             public void success(List<Review> result, Response response) {
-                if (result != null)
-                {
+                if (result != null) {
                     reviews.addAll(result);
+                    getUsers();
+                }
+                progress.dismiss();
+            }
+
+            @Override
+            public void failure(RetrofitError e) {
+                progress.dismiss();
+                displayError(e);
+            }
+        });
+    }
+
+    protected void getUsers() {
+        users.clear();
+        // startProgress();
+        ApiRouter.withoutToken().getUsers(new Callback<List<User>>() {
+            @Override
+            public void success(List<User> result, Response response) {
+                if (result != null) {
+                    users.addAll(result);
                     populateComments();
                 }
+                progress.dismiss();
+            }
+
+            @Override
+            public void failure(RetrofitError e) {
+                progress.dismiss();
+                displayError(e);
+            }
+        });
+    }
+
+    protected void postReview(String review)
+    {
+        r = new Review();
+        r.setId(reviewSize);
+        r.setStreet_id(current.getId());
+        r.setReview_content(review);
+        r.setUser_id(1);
+        ApiRouter.withoutToken().post_review(r, new Callback<Review>() {
+            @Override
+            public void success(Review result, Response response) {
+                if (result != null) {
+                    reviews.add(r);
+                    populateComments();
+                }
+                progress.dismiss();
+            }
+
+            @Override
+            public void failure(RetrofitError e) {
+                progress.dismiss();
+                displayError(e);
+            }
+        });
+    }
+
+    protected void getReviewSize(final String review)
+    {
+        ApiRouter.withoutToken().getreviewsSize(new Callback<Integer>() {
+            @Override
+            public void success(Integer result, Response response) {
+                if (result != null)
+                {
+                    reviewSize = result + 1;
+                }
+                else
+                {
+                    reviewSize = 1;
+                }
+                postReview(review);
                 progress.dismiss();
             }
 

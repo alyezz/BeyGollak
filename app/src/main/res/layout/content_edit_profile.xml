@@ -22,6 +22,19 @@
         android:layout_height="wrap_content"
         android:id="@+id/ivProfilePicture" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Email"
+        android:textStyle="bold"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/etEmail"
+        android:text="aly@gmail.com"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content" />
+
    <!-- FIRST NAME -->
     <TextView
         android:layout_width="wrap_content"
@@ -29,7 +42,7 @@
         android:textStyle="bold"
         android:layout_height="wrap_content" />
 
-    <EditText
+    <TextView
         android:id="@+id/etFirstName"
         android:text="Aly"
         android:layout_width="match_parent"
@@ -43,7 +56,7 @@
         android:textStyle="bold"
         android:layout_height="wrap_content" />
 
-    <EditText
+    <TextView
         android:id="@+id/etLastName"
         android:text="Ezz"
         android:layout_width="match_parent"
@@ -57,7 +70,7 @@
         android:textStyle="bold"
         android:layout_height="wrap_content" />
 
-    <EditText
+    <TextView
         android:id="@+id/etLocation"
         android:text="Cairo"
         android:layout_width="match_parent"
@@ -96,19 +109,14 @@
         android:layout_height="wrap_content" />
 
 
-    <Button
-        android:id="@+id/bUpdate"
-        android:text="Update"
-        android:layout_marginBottom="10dp"
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/bLogout"
-        android:text="Logout"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.05" />
 
 
 </LinearLayout>

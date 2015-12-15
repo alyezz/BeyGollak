@@ -12,49 +12,19 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:text="Email"
-        android:inputType="textEmailAddress"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:paddingBottom="30dp" />
 
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
-
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
-        android:text="Password"
-        android:layout_height="wrap_content" />
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/logo3"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivProfilePicture"
+        android:paddingBottom="20dp" />
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:inputType="textPassword"
-        android:layout_marginBottom="10dp"
-        android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/bLogin"
-        android:text="Login"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <!--<Button-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Log in with Facebook"-->
-        <!--android:id="@+id/bFacebook"-->
-        <!--android:drawableLeft="@drawable/flogo"-->
-        <!--android:paddingLeft="20dp"-->
-        <!--android:textAllCaps="false"-->
-        <!--android:textSize="16dp"-->
-        <!--android:drawablePadding="-40dp"-->
-        <!--android:gravity="center"-->
-        <!--android:layout_marginBottom="10dp"-->
-        <!--android:background="#3b5998"-->
-        <!--android:textColor="#ffffff" />-->
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="match_parent"
@@ -64,13 +34,5 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.05" />
 
-    <TextView
-        android:id="@+id/tvRegisterLink"
-        android:layout_width="wrap_content"
-        android:text="Register Here"
-        android:inputType="textEmailAddress"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content" />
 
 </LinearLayout>

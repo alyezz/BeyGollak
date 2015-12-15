@@ -6,6 +6,8 @@ package com.example.alyezz.model;
 public class Post {
     private long id;
     private long user_id;
+    private String post_content;
+    private long reciever_id;
 
     public String getPost_content() {
         return post_content;
@@ -39,7 +41,6 @@ public class Post {
         this.reciever_id = reciever_id;
     }
 
-    private String post_content;
-    private long reciever_id;
+
 
 }

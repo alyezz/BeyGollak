@@ -12,12 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.alyezz.model.User;
+
 public class EditProfile extends AppCompatActivity implements View.OnClickListener {
 
 
     Button bUpdate, bLogout;
-    EditText etFirstName, etLastName, etLocation;
-    TextView etDateOfBirth, etGender;
+    TextView etDateOfBirth, etGender, etFirstName, etLastName, etLocation,etEmail;
+    User currentUser;
 
 
     @Override
@@ -27,18 +29,18 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        etFirstName = (EditText) findViewById(R.id.etFirstName);
-//        etLastName = (EditText) findViewById(R.id.etLastName);
-//        etLocation = (EditText) findViewById(R.id.etLocation);
-//        etDateOfBirth = (TextView) findViewById(R.id.etDateOfBirth);
-//        etGender = (TextView) findViewById(R.id.etGender);
-        bLogout = (Button) findViewById(R.id.bLogout);
-        bUpdate = (Button) findViewById(R.id.bUpdate);
+        etFirstName = (TextView) findViewById(R.id.etFirstName);
+        etLastName = (TextView) findViewById(R.id.etLastName);
+        etLocation = (TextView) findViewById(R.id.etLocation);
+        etDateOfBirth = (TextView) findViewById(R.id.etDateOfBirth);
+        etGender = (TextView) findViewById(R.id.etGender);
+        etEmail = (TextView) findViewById(R.id.etEmail);
 
+        currentUser = ((MyApplication) getApplicationContext()).currentUser;
 
-        bLogout.setOnClickListener(this);
-        bUpdate.setOnClickListener(this);
-
+        etEmail.setText(currentUser.getEmail());
+        etLastName.setText(currentUser.getLast_name());
+        etFirstName.setText(currentUser.getFirst_name());
     }
 
     @Override
@@ -57,15 +59,6 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
 
-        switch(v.getId())
-        {
-            case R.id.bLogout:
-
-                startActivity(new Intent(this, Login.class));
-
-                break;
-
-        }
 
     }
 }

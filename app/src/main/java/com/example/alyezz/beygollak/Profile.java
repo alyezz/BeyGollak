@@ -1,5 +1,6 @@
 package com.example.alyezz.beygollak;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -21,8 +22,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alyezz.model.Post;
+import com.example.alyezz.model.Review;
+import com.example.alyezz.model.User;
+import com.example.alyezz.util.ApiRouter;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class Profile extends Fragment implements View.OnClickListener {
 
@@ -31,10 +41,12 @@ public class Profile extends Fragment implements View.OnClickListener {
     ImageView ivProfilePicture;
     TextView tvViewFriends,tvName ;
     Button bPost;
+    Post p;
     EditText etPost;
-    ArrayList<Integer> posts = new ArrayList<Integer>();
-    ArrayList<String> poster = new ArrayList<String>();
-    ArrayList<String> post_content = new ArrayList<String>();
+    ProgressDialog progress;
+    User currentUser;
+    List<Post> post = new ArrayList<Post>();
+    List<User> users = new ArrayList<User>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,38 +67,52 @@ public class Profile extends Fragment implements View.OnClickListener {
         etPost = (EditText) getView().findViewById(R.id.etPost);
         bPost = (Button) getView().findViewById(R.id.bPost);
 
+        while (((MyApplication) getActivity().getApplicationContext()).currentUser == null);
+
+        currentUser = ((MyApplication) getActivity().getApplicationContext()).currentUser;
+        String temp = currentUser.getFirst_name();
+
+        temp += " " + currentUser.getLast_name();
+
+        tvName.setText(temp);
+
         bPost.setOnClickListener(this);
         ivProfilePicture.setOnClickListener(this);
         tvViewFriends.setOnClickListener(this);
-       populatePosts();
 
+        getPosts();
 
     }
 
     public void populatePosts()
     {
-        String[] textArray = {"Sherif", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.", "Aly", "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit."};
         llProfile.removeAllViews();
-        for( int i = 0; i < textArray.length; i++ )
-        {
-            TextView textView = new TextView(getActivity());
-            textView.setText(textArray[i]);
-            textView.setOnClickListener(this);
-            if(i%2 == 0)
-            {
-                textView.setTypeface(null, Typeface.BOLD);
-                textView.setPadding(20, 15, 20, 0);
-                poster.add(textArray[i]);
-            }
-            else
-            {
-                textView.setId(i);
-                posts.add(textView.getId());
-                post_content.add(textArray[i]);
-                textView.setPadding(20,15,20,20);
-            }
+        // String[] textArray = {"Sherif", " Duis vel dolor vitae diam egestas viverra vitae id nunc. Maecenas cursus sodales Arcu at varius. Etiam varius ligula ac elit tincidunt, vel ante scelerisque eleifend.", "Aly", "cursus eget diam molestie EU. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc consectetuer male Suada lacus a hendrerit."};
+        for( int i = 0; i < post.size(); i++ ) {
 
-            llProfile.addView(textView);
+            if (post.get(i).getReciever_id() == currentUser.getId()) {
+
+                TextView textView = new TextView(this.getActivity());
+                for (int j = 0; j < users.size(); j++) {
+                    if (post.get(i).getReciever_id() == users.get(j).getId()) {
+                        textView.setText(users.get(j).getEmail());
+                    }
+                }
+
+                // textView.setText(""+ reviews.get(i).getUser_id());//get actual user name
+                textView.setOnClickListener(this);
+                textView.setTypeface(null, Typeface.BOLD);
+//                commenters.add(textView.getId());
+//                commenters_name.add(""+ reviews.get(i).getUser_id());
+                textView.setPadding(20, 15, 20, 0);
+                llProfile.addView(textView);
+                textView = new TextView(this.getActivity());
+                textView.setText(post.get(i).getPost_content());
+                textView.setOnClickListener(this);
+                textView.setPadding(20, 15, 20, 20);
+                textView.setId((int)post.get(i).getId());
+                llProfile.addView(textView);
+            }
         }
     }
     @Override
@@ -100,7 +126,9 @@ public class Profile extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.tvViewFriends:
-                startActivity(new Intent(getActivity(), FriendList.class));
+                Intent j = new Intent(getActivity().getApplicationContext(), FriendList.class);
+                j.putExtra("id", currentUser.getId());
+                startActivity(j);
                 break;
 
             case R.id.bPost:
@@ -111,21 +139,95 @@ public class Profile extends Fragment implements View.OnClickListener {
                 }
                 else
                 {
-                    Toast.makeText(getActivity().getApplicationContext(), "Posted: " + etPost.getText(),
-                            Toast.LENGTH_LONG).show();
+                    postPost("" + etPost.getText());
+                    etPost.setText("");
+                    break;
                 }
         }
 
-        for(int i = 0; i< posts.size(); i++) {
-            if (v.getId() == posts.get(i))
+        for (int i = 0 ; i<post.size();i++)
+        {
+            if (post.get(i).getId() == v.getId())
             {
-                Intent a = new Intent(getActivity().getApplicationContext(), Post.class);
-                a.putExtra("name", poster.get(i));
-                a.putExtra("content", post_content.get(i));
-                startActivity(a);
-                break;
+                Intent j = new Intent(getActivity().getApplicationContext(), com.example.alyezz.beygollak.Post.class);
+                j.putExtra("id", post.get(i).getId());
+                j.putExtra("content",post.get(i).getPost_content());
+                j.putExtra("user",post.get(i).getUser_id());
+                startActivity(j);
             }
         }
     }
 
+    protected void getPosts() {
+        post.clear();
+        //startProgress();
+        progress = ProgressDialog.show(this.getActivity(), "Fetching Data", "Please wait...", true);
+
+        ApiRouter.withoutToken().getPosts(new Callback<List<Post>>() {
+            @Override
+            public void success(List<Post> result, Response response) {
+                post.addAll(result);
+                getUsers();
+                progress.dismiss();
+            }
+
+            @Override
+            public void failure(RetrofitError e) {
+                progress.dismiss();
+                displayError(e);
+            }
+        });
+
+    }
+
+    protected void getUsers() {
+        users.clear();
+        // startProgress();
+        ApiRouter.withoutToken().getUsers(new Callback<List<User>>() {
+            @Override
+            public void success(List<User> result, Response response) {
+                if (result != null) {
+                    users.addAll(result);
+                    populatePosts();
+                }
+                progress.dismiss();
+            }
+
+            @Override
+            public void failure(RetrofitError e) {
+                progress.dismiss();
+                displayError(e);
+            }
+        });
+    }
+
+    protected void postPost(String post_text)
+    {
+        p = new Post();
+        p.setId(post.size()+1);
+        p.setUser_id(currentUser.getId());
+        p.setReciever_id(currentUser.getId());
+        p.setPost_content(post_text);
+        ApiRouter.withoutToken().post_post(p, new Callback<Post>() {
+            @Override
+            public void success(Post result, Response response) {
+                if (result != null) {
+                    post.add(p);
+                    populatePosts();
+                }
+                progress.dismiss();
+            }
+
+            @Override
+            public void failure(RetrofitError e) {
+                //  progress.dismiss();
+                displayError(e);
+            }
+        });
+    }
+
+    protected void displayError(Exception e) {
+        Toast.makeText(this.getActivity(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT)
+                .show();
+    }
 }

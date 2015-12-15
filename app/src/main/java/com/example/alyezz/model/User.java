@@ -6,11 +6,23 @@ package com.example.alyezz.model;
 public class User {
 
     private long id;
+
+    public long getFacebook_id() {
+        return facebook_id;
+    }
+
+    public void setFacebook_id(long facebook_id) {
+        this.facebook_id = facebook_id;
+    }
+
+    private long facebook_id;
     private String first_name;
     private String last_name;
     private String date_of_birth;
     private String gender;
     private String email;
+    private String location;
+    private String token;
 
     public String getLocation() {
         return location;
@@ -76,6 +88,4 @@ public class User {
         this.last_name = last_name;
     }
 
-    private String location;
-    private String token;
 }

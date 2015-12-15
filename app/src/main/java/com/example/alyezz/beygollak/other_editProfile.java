@@ -3,21 +3,17 @@ package com.example.alyezz.beygollak;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.alyezz.model.Review;
 import com.example.alyezz.model.User;
 import com.example.alyezz.util.ApiRouter;
 
@@ -28,32 +24,38 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class FriendList extends AppCompatActivity {
+public class other_editProfile extends AppCompatActivity implements View.OnClickListener {
 
 
+    TextView etDateOfBirth, etGender, etFirstName, etLastName, etLocation,etEmail;
     User currentUser;
-    Long userId;
     ProgressDialog progress;
-    ListView lvFriends;
-    List<User> friends = new ArrayList<>();
-    List<String> names = new ArrayList<>();
+    Long userId;
+    List<User> users = new ArrayList<User>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend_list);
+        setContentView(R.layout.activity_other_edit_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        currentUser = ((MyApplication) getApplicationContext()).currentUser;
+        etFirstName = (TextView) findViewById(R.id.etFirstName);
+        etLastName = (TextView) findViewById(R.id.etLastName);
+        etLocation = (TextView) findViewById(R.id.etLocation);
+        etDateOfBirth = (TextView) findViewById(R.id.etDateOfBirth);
+        etGender = (TextView) findViewById(R.id.etGender);
+        etEmail = (TextView) findViewById(R.id.etEmail);
 
-        lvFriends = (ListView) findViewById(R.id.lvFriends);
+        currentUser = ((MyApplication) getApplicationContext()).currentUser;
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             userId = extras.getLong("id");
         }
 
-        getFriends();
+        getUsers();
+
     }
 
     @Override
@@ -70,54 +72,35 @@ public class FriendList extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-        public void populateFriends()
+    protected int findUser(Long id)
     {
-        names.clear();
-        for (int i = 0; i<friends.size();i++)
+        for(int i = 0; i<users.size();i++)
         {
-            String s = "";
-            s+= friends.get(i).getEmail();
-            names.add(s);
-        }
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                names );
-
-        lvFriends.setAdapter(arrayAdapter);
-
-        lvFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                Long user = findFriend(names.get(position));
-                Intent i = new Intent(getApplicationContext(), Other_Profile.class);
-                i.putExtra("id", user);
-                startActivity(i);
+            if (users.get(i).getId() == id)
+            {
+                return i;
             }
-        });
+        }
+        return -1;
     }
 
-    protected Long findFriend(String email)
+    protected void populateInfo()
     {
-        for (int i = 0; i<friends.size();i++)
-        {
-            if(friends.get(i).getEmail().equals(email))
-                return friends.get(i).getId();
-        }
-        return new Long(-1);
+        etEmail.setText(users.get(findUser(userId)).getEmail());
+        etLastName.setText(users.get(findUser(userId)).getLast_name());
+        etFirstName.setText(users.get(findUser(userId)).getFirst_name());
     }
-    protected void getFriends() {
-        friends.clear();
+
+    protected void getUsers() {
         // startProgress();
+        users.clear();
         progress = ProgressDialog.show(this, "Fetching Data", "Please wait...", true);
-        ApiRouter.withoutToken().getFriends(userId, new Callback<List<User>>() {
+        ApiRouter.withoutToken().getUsers(new Callback<List<User>>() {
             @Override
             public void success(List<User> result, Response response) {
                 if (result != null) {
-                    friends.addAll(result);
-                    populateFriends();
+                    users.addAll(result);
+                    populateInfo();
                 }
                 progress.dismiss();
             }
@@ -128,10 +111,17 @@ public class FriendList extends AppCompatActivity {
                 displayError(e);
             }
         });
+        progress.dismiss();
     }
 
     protected void displayError(Exception e) {
         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT)
                 .show();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+
     }
 }

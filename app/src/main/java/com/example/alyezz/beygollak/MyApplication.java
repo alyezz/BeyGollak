@@ -7,36 +7,43 @@ import android.content.pm.Signature;
 import android.util.Base64;
 import android.util.Log;
 
+import com.example.alyezz.model.User;
+import com.example.alyezz.util.ApiRouter;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Aly Ezz on 28/11/2015.
  */
 public class MyApplication extends Application {
 
+    public User currentUser;
     @Override
-    public void onCreate() {
-        super.onCreate();
-        printHashKey();
-    }
-
-    public void printHashKey()
+    public void onCreate()
     {
-        // Add code to print out the key hash
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.example.alyezz.beygollak",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+        super.onCreate();
+        getUsers();
+    }
+    protected void getUsers() {
+        // startProgress();
+        ApiRouter.withoutToken().getUsers(new Callback<List<User>>() {
+            @Override
+            public void success(List<User> result, Response response) {
+                if (result != null && result.size()>0) {
+                    currentUser = result.get(0);
+                }
             }
-        } catch (PackageManager.NameNotFoundException e) {
 
-        } catch (NoSuchAlgorithmException e) {
+            @Override
+            public void failure(RetrofitError e) {
 
-        }
+            }
+        });
     }
 }

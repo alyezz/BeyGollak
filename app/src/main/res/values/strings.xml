@@ -12,4 +12,5 @@
     <string name="title_activity_other__profile">Other_Profile</string>
     <string name="title_activity_timeline">Timeline</string>
     <string name="facebook_app_id">854016358050999</string>
+    <string name="title_activity_other_edit_profile">other_editProfile</string>
 </resources>

@@ -1,12 +1,14 @@
 package com.example.alyezz.beygollak;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,12 +18,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.alyezz.model.Review;
 import com.example.alyezz.model.User;
 import com.example.alyezz.util.ApiRouter;
 import com.facebook.*;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -35,21 +41,32 @@ public class Login extends BaseActivity implements View.OnClickListener {
     EditText etEmail, etPassword;
     TextView tvRegisterLink;
     Intent intent;
+    ProgressDialog progress;
     private CallbackManager mCallBackManager;
+    User current = new User();
+    Intent i;
 
     private FacebookCallback<LoginResult> mCallback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
 
+
             AccessToken accessToken = loginResult.getAccessToken();
             Profile profile = Profile.getCurrentProfile();
+            AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
+                @Override
+                protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
+                                                           AccessToken currentAccessToken) {
+                    if (currentAccessToken == null) {
+                        startActivity(i);
+                    }
+                }
+            };
+            accessTokenTracker.startTracking();
+            get_remaining_data(accessToken);
 
-            if (profile != null)
-            {
-
-            }
-            startActivity(intent);
-
+//            User x = new User();
+//            x = ((MyApplication) getApplicationContext()).currentUser;
         }
 
         @Override
@@ -72,35 +89,20 @@ public class Login extends BaseActivity implements View.OnClickListener {
         setSupportActionBar(toolbar);
 
         intent = new Intent(this,MainActivity.class);
+        i = new Intent(this,Login.class);
         mCallBackManager = CallbackManager.Factory.create();
-        etEmail = (EditText) findViewById(R.id.etEmail);
-        etPassword = (EditText) findViewById(R.id.etPassword);
-        bLogin = (Button) findViewById(R.id.bLogin);
+       // etEmail = (EditText) findViewById(R.id.etEmail);
+      //  etPassword = (EditText) findViewById(R.id.etPassword);
+      //  bLogin = (Button) findViewById(R.id.bLogin);
        // bFacebook = (Button) findViewById(R.id.bFacebook);
-        tvRegisterLink = (TextView) findViewById(R.id.tvRegisterLink);
+       // tvRegisterLink = (TextView) findViewById(R.id.tvRegisterLink);
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions("user_friends");
-        loginButton.registerCallback(mCallBackManager,mCallback);
+        loginButton.setReadPermissions("email");
+        loginButton.registerCallback(mCallBackManager, mCallback);
 
-        bLogin.setOnClickListener(this);
-        tvRegisterLink.setOnClickListener(this);
-    }
-
-    public void showAlert(String title, String  message)
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", null);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+       // bLogin.setOnClickListener(this);
+      //  tvRegisterLink.setOnClickListener(this);
     }
 
 
@@ -111,49 +113,62 @@ public class Login extends BaseActivity implements View.OnClickListener {
         mCallBackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
+
+    protected void auth()
+    {
+        ApiRouter.withoutToken().fb_auth(current, new Callback<User>() {
+            @Override
+            public void success(User result, Response response) {
+                progress.dismiss();
+                Log.d("el user", "" + result.getId());
+                ((MyApplication) getApplicationContext()).currentUser = result;
+                startActivity(intent);
+            }
+
+            @Override
+            public void failure(RetrofitError e) {
+                progress.dismiss();
+               // Log.d("MyApp",e.toString());
+                displayError(e);
+            }
+        });
+    }
+
+
+    protected  void get_remaining_data(AccessToken accessToken)
+    {
+        progress = ProgressDialog.show(this, "Logging in", "Please wait...", true);
+        GraphRequest request = GraphRequest.newMeRequest(
+                accessToken,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(
+                            JSONObject object,
+                            GraphResponse response) {
+                        try {
+                            Log.d("MyApp", object.toString());
+                            current.setFacebook_id(Long.parseLong(object.get("id").toString()));
+                            current.setFirst_name(object.getString("first_name"));
+                            current.setLast_name(object.getString("last_name"));
+                            current.setEmail(object.get("email").toString());
+                            auth();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.d("MyApp", e.toString());
+                        }
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "email,id,first_name,last_name");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
     public void onClick(View v) {
 
         switch(v.getId())
         {
-            case R.id.bLogin:
 
-                if (etEmail.length() == 0 || etPassword.length() == 0)
-                {
-                    Toast.makeText(getApplicationContext(), "Username Or Password Missing!",
-                            Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-//                    String email = etEmail.getText().toString();
-//                    String password = etPassword.getText().toString();
-//                    final Intent intent = new Intent(this, MainActivity.class);
-//                    ApiRouter.withoutToken().login(email, password, new Callback<User>() {
-//                        @Override
-//                        public void success(User user, Response response) {
-//                            setCurrentUser(user);
-//                            stopProgress();
-//                            startActivity(intent);
-//                        }
-//                        @Override
-//                        public void failure(RetrofitError e) {
-//                            displayError(e);
-//                            bLogin.setEnabled(true);
-//                        }
-//                    });
-                    startActivity(new Intent(this, MainActivity.class));
-                }
-                break;
-
-            case R.id.tvRegisterLink:
-
-                startActivity(new Intent(this, Register.class));
-                break;
-
-//            case R.id.bFacebook:
-//
-//                startActivity(new Intent(this, MainActivity.class));
-//                break;
         }
 
     }
